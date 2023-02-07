@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import Web3 from 'web3';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ThemeCustomization from './theme';
 
 const getLibrary = (provider: any) => {
   return new Web3(provider);
@@ -13,11 +14,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Web3ReactProvider getLibrary={getLibrary} >  
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Web3ReactProvider>
+  <ThemeCustomization>
+    <Web3ReactProvider getLibrary={getLibrary} >  
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Web3ReactProvider>
+  </ThemeCustomization>
 );
 
 // If you want to start measuring performance in your app, pass a function
