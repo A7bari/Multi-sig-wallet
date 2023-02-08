@@ -1,4 +1,4 @@
-import { Drawer, Stack, useTheme } from "@mui/material";
+import { Drawer, Stack } from "@mui/material";
 import React, { ReactElement } from "react";
 import NavMenu from "./NavMenu";
 
