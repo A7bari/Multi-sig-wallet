@@ -1,5 +1,4 @@
 import { useEffect} from 'react';
-import './App.css';
 import { useWeb3React } from '@web3-react/core';
 import { injected } from './connector/connector';
 import { Stack } from '@mui/system';
