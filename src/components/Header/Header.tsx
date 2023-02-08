@@ -6,7 +6,7 @@ import NavDrawer from '../Navigation/NavDrawer';
 
 
 const HeaderContent = () => (
-    <Typography variant={'h4'}>Multi-sig wallet</Typography>
+    <Typography variant={'h6'}>Multi-sig wallet</Typography>
 );
 
 export default function Header() {
@@ -25,16 +25,7 @@ export default function Header() {
           <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             
             { !matchesXs ? ( 
-                <>
                   <Icon component={HeaderContent} />
-                  <Stack direction="row" spacing={2.5} alignItems="center">
-                    {/* {navItems.map((item, i) => (
-                      <Link  key={i} href={item.url} variant='button' color={'inherit'} underline='hover'>
-                          {t(item.label)}
-                      </Link>
-                    ))} */}
-                  </Stack>
-                </>
               ) : (
                 <IconButton
                   color="inherit"
