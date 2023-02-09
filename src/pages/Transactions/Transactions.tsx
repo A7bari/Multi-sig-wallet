@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useWeb3React } from '@web3-react/core';
 import ApproveTxDialog from 'components/ApproveTxDialog';
+import Web3 from 'web3';
 
 export interface Transaction{
    to : string,
@@ -16,7 +17,7 @@ export interface Transaction{
 }
 
 const headLabel = [
-   'number', 'to address', 'value', 'data', 'excuted', 'confirmations' , ''
+   'number', 'to address', 'value', 'excuted', 'confirmations' , ''
 ]
 
 function Transactions() {
@@ -109,8 +110,9 @@ function Transactions() {
                </TableHead>
                <TableBody>
                   {transactions.map((tx, index) => {
-                     const { to, value, data, executed, nbrApprovals} = tx;
+                     const { to, value, executed, nbrApprovals} = tx;
                      const canBeApproved = nbrApprovalsRequired <= nbrApprovals ;
+                     const convertedValue =  Web3.utils.fromWei(value + '', 'ether');
 
                      return (
                      <TableRow hover key={index} tabIndex={-1}  selected={false}>
@@ -123,9 +125,7 @@ function Transactions() {
 
                         <TableCell align="left">{to}</TableCell>
 
-                        <TableCell align="center">{value}</TableCell>
-
-                        <TableCell align="center">{data}</TableCell>
+                        <TableCell align="center">{convertedValue} eth</TableCell>
 
                         <TableCell align="center">{executed ? 'Yes' : 'No'}</TableCell>
 
