@@ -45,7 +45,6 @@ function SubmitTransaction() {
          setIsSubmitting(false);
          !err && setValues(initialState);
       }
-      
    }
 
   return (
