@@ -16,7 +16,6 @@ function Owners() {
          try {
             const res = await contract?.methods.getOwners().call() as string[];
             setOwners(res);
-            console.log(contract)
          } catch (error) {
          } finally {
             setPerforming(false);
