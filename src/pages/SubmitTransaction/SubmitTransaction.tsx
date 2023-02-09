@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import React, {FormEvent, useState} from 'react'
+import {useState} from 'react'
 import Button  from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
@@ -11,9 +11,8 @@ import { useWeb3React } from '@web3-react/core';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import { Alert, Snackbar } from '@mui/material';
 import SuccessSnackbar from 'components/Snackbars/SuccessSnackbar';
+import Web3 from 'web3';
 
 const initialState = {
    address_to : "",
@@ -34,7 +33,8 @@ function SubmitTransaction() {
       setIsSubmitting(true);
       try{
          if( !contract ) throw new Error();
-         const res = await contract.methods.submit(values.address_to, parseInt(values.value) , "0x00").send({from: account});
+         const value = Web3.utils.toWei(values.value , 'ether');
+         await contract.methods.submit(values.address_to, value , "0x00").send({from: account});
          setMsg('sabmitted successfuly!');
          setOpen(true);
       } catch(e) {
