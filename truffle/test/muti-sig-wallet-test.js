@@ -79,6 +79,7 @@ contract("MultiSigWallet", accounts => {
       assert.equal(tx.value, value)
       assert.equal(tx.data, data)
       assert.equal(tx.executed, false)
+      assert.equal(tx.nbrApprovals, 0)
     })
 
     it("should reject if not owner", async () => {
@@ -231,13 +232,33 @@ contract("MultiSigWallet", accounts => {
     })
   })
 
-  describe("owners", () => {
+  describe("GetOwners", () => {
     it("should return owners", async () => {
-      const res = await wallet.owners
+      const res = await wallet.getOwners()
 
       for (let i = 0; i < res.length; i++) {
         assert.equal(res[i], owners[i])
       }
+    })
+  })
+  describe("GetTransactions", () => {
+    beforeEach(async () => {
+      const to = accounts[3]
+      const value = 0
+      const data = "0x0123"
+
+      await wallet.submit(to, value, data)
+    })
+
+    it("should return transactions", async () => {
+      const res = await wallet.getTransactions()
+
+      
+      assert.equal(res[0].to, accounts[3])
+      assert.equal(res[0].value, 0)
+      assert.equal(res[0].data, "0x0123")
+      assert.equal(res[0].nbrApprovals, 0)
+      
     })
   })
 

@@ -13,7 +13,7 @@ contract MultisigWallet {
         uint value;
         bytes data;
         bool executed;
-        uint nbrAprovals;
+        uint nbrApprovals;
     }
 
     address[] public owners;
@@ -68,7 +68,7 @@ contract MultisigWallet {
             value: _value,
             data: _data,
             executed: false,
-            nbrAprovals: 0
+            nbrApprovals: 0
         }));
         emit Submit(transactions.length - 1);
     }
@@ -81,7 +81,7 @@ contract MultisigWallet {
         notExecuted(_txIndex)
     {
         isApproved[_txIndex][msg.sender] = true;
-        transactions[_txIndex].nbrAprovals ++;
+        transactions[_txIndex].nbrApprovals ++;
         emit Approve(msg.sender, _txIndex);
     }
 
@@ -91,7 +91,7 @@ contract MultisigWallet {
         txIndexExists(_txIndex) 
         notExecuted(_txIndex) 
     {
-        require(transactions[_txIndex].nbrAprovals >= NbrApprovalRequired, "Approvals < required");
+        require(transactions[_txIndex].nbrApprovals >= NbrApprovalRequired, "Approvals < required");
         Transaction storage transaction = transactions[_txIndex];
 
         transaction.executed = true;
@@ -113,7 +113,7 @@ contract MultisigWallet {
     {
         require(isApproved[_txIndex][msg.sender], "already not approved!");
         isApproved[_txIndex][msg.sender] = false ;
-        transactions[_txIndex].nbrAprovals --;
+        transactions[_txIndex].nbrApprovals --;
         emit Revoke(msg.sender, _txIndex);
     }
 
