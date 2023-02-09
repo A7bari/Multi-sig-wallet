@@ -58,7 +58,7 @@ export default function ThemeCustomization({ children }: PropsWithChildren) {
             disabled: '#9BA3A0'
           },
           action: {
-            disabled: 'rgba(55, 65, 81, 0.26)',
+            disabled: '#9BA3A0',
             selectedOpacity: 0.08,
             hoverOpacity: 0.2
           }
