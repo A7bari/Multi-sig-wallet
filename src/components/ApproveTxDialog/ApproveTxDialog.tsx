@@ -34,7 +34,7 @@ function ApproveTxDialog({open, handleClose, txIndex, transaction}:Props) {
          const res = await contract?.methods.isOwner(account).call() as boolean;
          const isApproved = await contract?.methods.isApproved(txIndex, account).call({from: account}) as boolean;
          setIsOwner(res);
-         setIsApproved(true)
+         setIsApproved(isApproved)
          !res && setErrMsg("you are not one of the owners! You can't approve on this transaction.")
          isApproved && setWarning("you already approved on this transaction!")
       } catch (error) {
@@ -80,9 +80,9 @@ function ApproveTxDialog({open, handleClose, txIndex, transaction}:Props) {
                </MuiAlert>
             }
             {
-               isApproved && <MuiAlert elevation={6} severity={'warning'} variant='outlined' sx={{mb: 2}}>
+               isApproved && (<MuiAlert elevation={6} severity={'warning'} variant='outlined' sx={{mb: 2}}>
                   {warningMsg}
-               </MuiAlert>
+               </MuiAlert>)
             }
             <Typography variant='h6' color='primary.main'> Approving on transaction :</Typography>
             <Grid container spacing={1} sx={{mt: 2}}> 
