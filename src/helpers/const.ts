@@ -8,8 +8,8 @@ export interface navItemType {
  }
  
  export const navItems : navItemType[] = [
-   { label: 'owners', url: '/home',   }, 
+   { label: 'owners', url: '/owners',   }, 
    { label: 'wallet', url: '/wallet' }, 
-   { label: 'transactions' , url: '/tramsactions' },
-   { label: 'submit transactions' , url: '/submitTamsactions' }
+   { label: 'transactions' , url: '/transactions' },
+   { label: 'submit transactions' , url: '/submitTansaction' }
  ];
