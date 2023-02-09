@@ -13,6 +13,7 @@ contract MultisigWallet {
         uint value;
         bytes data;
         bool executed;
+        uint nbrAprovals;
     }
 
     address[] public owners;
@@ -66,7 +67,8 @@ contract MultisigWallet {
             to: _to,
             value: _value,
             data: _data,
-            executed: false
+            executed: false,
+            nbrAprovals: 0
         }));
         emit Submit(transactions.length - 1);
     }
@@ -79,15 +81,8 @@ contract MultisigWallet {
         notExecuted(_txIndex)
     {
         isApproved[_txIndex][msg.sender] = true;
+        transactions[_txIndex].nbrAprovals ++;
         emit Approve(msg.sender, _txIndex);
-    }
-
-    function _getApprovalCount(uint _txIndex) private view returns(uint count){
-        for(uint i; i < owners.length  ; i++){
-            if(isApproved[_txIndex][owners[i]]){
-                count ++;
-            }
-        }
     }
 
     function execute(uint _txIndex) 
@@ -96,7 +91,7 @@ contract MultisigWallet {
         txIndexExists(_txIndex) 
         notExecuted(_txIndex) 
     {
-        require(_getApprovalCount(_txIndex) >= NbrApprovalRequired, "Approvals < required");
+        require(transactions[_txIndex].nbrAprovals >= NbrApprovalRequired, "Approvals < required");
         Transaction storage transaction = transactions[_txIndex];
 
         transaction.executed = true;
@@ -118,8 +113,15 @@ contract MultisigWallet {
     {
         require(isApproved[_txIndex][msg.sender], "already not approved!");
         isApproved[_txIndex][msg.sender] = false ;
-
+        transactions[_txIndex].nbrAprovals --;
         emit Revoke(msg.sender, _txIndex);
     }
 
+    function getOwners() public view returns(address[] memory){
+        return owners;
+    }
+
+    function getTransactions() public view returns(Transaction[] memory){
+        return transactions;
+    }
 }
