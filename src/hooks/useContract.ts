@@ -21,7 +21,7 @@ export function useContract(contractJson: Record<string, any> ) {
     web3.eth.net.getId().then((networkId : number|string) => {
       const _address = contractJson?.networks[networkId]?.address;
       if (_address) {
-        setAddress(_address)
+        setAddress(_address);
         setInstance(new web3.eth.Contract(contractJson.abi, _address));
       } else {
         setError('No Trust Fund account found.')
@@ -30,7 +30,7 @@ export function useContract(contractJson: Record<string, any> ) {
       }
     })
 
-  }, [contractJson, chainId])
+  }, [JSON.stringify(contractJson), chainId])
 
 
   return useMemo(() => {
@@ -39,5 +39,5 @@ export function useContract(contractJson: Record<string, any> ) {
       address,
       error
     };
-  }, [address, contractJson, instance]);
+  }, [address, JSON.stringify(contractJson), instance]);
 }
