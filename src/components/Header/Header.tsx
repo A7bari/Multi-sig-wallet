@@ -3,6 +3,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import Profile from './Profile';
 import NavDrawer from '../Navigation/NavDrawer';
+import Button from '@mui/material/Button';
+import DepositTxDialog from 'components/DepositTxDialog';
 
 
 const HeaderContent = () => (
@@ -13,7 +15,7 @@ export default function Header() {
   const matchesXs = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const [openDiposit, setOpenDiposit] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -39,12 +41,22 @@ export default function Header() {
             )}
             
             <Stack spacing={1.4} direction='row' alignItems="center">
+              <Button variant='contained' onClick={() => setOpenDiposit(true)}>
+                Deposit
+              </Button>
               <Profile />
             </Stack>
             
           </Container>
         </Toolbar>
       </AppBar>
+
+      <DepositTxDialog
+            open={openDiposit}
+            handleClose={ ()=> {
+               setOpenDiposit(false);
+            }}
+        />
 
       { matchesXs && (
           <NavDrawer 
