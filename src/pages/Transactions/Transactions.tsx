@@ -2,11 +2,16 @@ import { Button, Card, Chip, Container, Stack, Table, TableBody, TableCell, Tabl
 import useMultisigContract from 'hooks/useMultisigContract';
 import  {useState, useEffect} from 'react'
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useWeb3React } from '@web3-react/core';
 import ApproveTxDialog from 'components/ApproveTxDialog';
 import Web3 from 'web3';
+import RevokeTxDialog from 'components/RevokeTxDialog';
+import CheckIcon from '@mui/icons-material/Check';
+import ExecuteTxDialog from 'components/ExecuteTxDialog';
+import { useNavigate } from 'react-router-dom';
 
 export interface Transaction{
    to : string,
@@ -22,12 +27,15 @@ const headLabel = [
 
 function Transactions() {
    const {contract} = useMultisigContract()
+   const {account} = useWeb3React();
+   const navigate = useNavigate();
    const [transactions , setTransactions ] = useState<Transaction[]>([])
    const [nbrApprovalsRequired, setNbrApprovalsRequired] = useState(0);
    const [performing , setPerforming] = useState(true);
    const [errMsg , setErrMsg] = useState<string|null>(null);
-   const {account} = useWeb3React();
-   const [dialogOpen, setDialogOpen] = useState(false);
+   const [approveDialogOpen, setApproveDialogOpen] = useState(false);
+   const [revokeDialogOpen, setRevokeDialogOpen] = useState(false);
+   const [executeDialogOpen, setExecuteDialogOpen] = useState(false);
    const [txIndex, setTxIndex] = useState<number|undefined>(undefined);
    const [currentTx, setCurrentTx] = useState<Transaction|undefined>(undefined);
 
@@ -52,14 +60,13 @@ function Transactions() {
       }
    }, [contract])
 
-   function handleApprove(txIndex: number, tx: Transaction) {
+   function handleAction(txIndex: number, tx: Transaction) {
       setTxIndex(txIndex);
-      setDialogOpen(true);
       setCurrentTx(tx);
    } 
+
    function handleDialogClose() {
       setTxIndex(undefined);
-      setDialogOpen(false);
       setCurrentTx(undefined);
       getData();
    } 
@@ -70,7 +77,7 @@ function Transactions() {
           <Typography variant="h5" gutterBottom>
             All transactions
           </Typography>
-          <Button variant="contained" size='small'>
+          <Button variant="contained" size='small' onClick={() => navigate('/submitTansaction')}>
             New transaction
           </Button>
         </Stack>
@@ -136,11 +143,39 @@ function Transactions() {
                         <TableCell align="right">
                            <Button 
                               size="small" 
-                              onClick={() => handleApprove(index, tx)} 
+                              onClick={() => {
+                                 handleAction(index, tx)
+                                 setApproveDialogOpen(true);
+                              }} 
                               variant='outlined' 
                               startIcon={<AddTaskIcon />}
+                              sx={{color: 'text.disabled'}}
                            >
                               Approve
+                           </Button>
+                           <Button 
+                              size="small" 
+                              onClick={() => {
+                                 handleAction(index, tx)
+                                 setRevokeDialogOpen(true);
+                              }}
+                              variant='outlined' 
+                              startIcon={<HighlightOffIcon />}
+                              sx={{color: 'warning.main'}}
+                           >
+                              Revoke
+                           </Button>
+                           <Button 
+                              size="small" 
+                              onClick={() => {
+                                 handleAction(index, tx)
+                                 setExecuteDialogOpen(true);
+                              }}
+                              variant='outlined' 
+                              startIcon={<CheckIcon />}
+                              sx={{color: 'success.main'}}
+                           >
+                              execute
                            </Button>
                         </TableCell>
                      </TableRow>
@@ -153,8 +188,29 @@ function Transactions() {
 
         </Card>
         <ApproveTxDialog
-            open={dialogOpen && txIndex !== undefined}
-            handleClose={handleDialogClose}
+            open={approveDialogOpen && txIndex !== undefined}
+            handleClose={()=> {
+               handleDialogClose();
+               setApproveDialogOpen(false);
+            }}
+            txIndex={txIndex}
+            transaction={currentTx}
+        />
+        <RevokeTxDialog
+            open={revokeDialogOpen && txIndex !== undefined}
+            handleClose={ ()=> {
+               handleDialogClose();
+               setRevokeDialogOpen(false);
+            }}
+            txIndex={txIndex}
+            transaction={currentTx}
+        />
+        <ExecuteTxDialog
+            open={executeDialogOpen && txIndex !== undefined}
+            handleClose={ ()=> {
+               handleDialogClose();
+               setExecuteDialogOpen(false);
+            }}
             txIndex={txIndex}
             transaction={currentTx}
         />
