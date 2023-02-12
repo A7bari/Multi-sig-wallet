@@ -66,7 +66,8 @@ export default function ThemeCustomization({ children }: PropsWithChildren) {
       typography: {
         fontFamily: `'Inter', 'Segoe UI', 'sans-serif'`,
         button: {
-          fontWeight: 600
+          fontWeight: 600,
+          textTransform: "capitalize"
         },
         h1: {
           fontWeight: 600,
