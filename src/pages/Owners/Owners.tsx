@@ -1,7 +1,7 @@
 
 import useMultisigContract from 'hooks/useMultisigContract'
 import { useState, useEffect } from 'react';
-import { Stack, LinearProgress } from '@mui/material';
+import { Stack, LinearProgress, Card } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 
@@ -33,7 +33,7 @@ function Owners() {
   return (  
     (!!owners)
       ?   <Stack height={'100%'} width={'100%'} alignItems='center' sx={{mt: 6}}>
-            <Paper sx={{px:6, py: 8, borderRadius: 2, }}>
+            <Card sx={{px:6, py: 8 }}>
                <Typography variant='subtitle2' color={'secondary.light'}>Owners of this wallet: </Typography>
                <Stack spacing={3} sx={{mt:4}}>
                   {(owners as string[]).map( (owner,i) => (
@@ -55,7 +55,7 @@ function Owners() {
                      </Stack>
                   ))}
                </Stack>
-            </Paper>
+            </Card>
          </Stack>
       : <LinearProgress />
 

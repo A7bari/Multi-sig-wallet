@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Paper, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography } from '@mui/material';
+import { List, Paper, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon, Typography, Box } from '@mui/material';
 import { navItems } from '../../helpers/const';
 import { Divider } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -11,7 +11,7 @@ function NavMenu() {
    const navigate = useNavigate();
   
   return (
-   <Paper sx={{p:2, mt: 3, backgroundImage: 'none',minWidth: 290}}> 
+   <Box sx={{p:2, mt: 3, backgroundImage: 'none',minWidth: 290, border: '1px dashed', borderColor: 'secondary.main', borderRadius: 4 }}> 
       <List>
          {navItems.map((item, i) => {
             const isSelected = item.url === location.pathname;
@@ -45,7 +45,7 @@ function NavMenu() {
             </ListItem>
          })} 
       </List>
-   </Paper>
+   </Box>
   )
 }
 

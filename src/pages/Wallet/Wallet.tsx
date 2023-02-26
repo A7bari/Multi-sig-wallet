@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import useMultisigContract from 'hooks/useMultisigContract';
 import { useEffect, useState } from 'react'
 import { formatEther } from '@ethersproject/units';
+import { Card } from '@mui/material';
 
 
 function Wallet() {
@@ -32,7 +33,7 @@ function Wallet() {
 
   return (
       <Stack height={'100%'} width={'100%'} alignItems='center' sx={{mt: 6}}>
-         <Paper sx={{px:6, py: 8, borderRadius: 2, }}>
+         <Card sx={{p:6, }}>
             <Stack spacing={3}>
                <Stack spacing={1}>
                   <Typography variant={'subtitle2'} >wallet address</Typography>
@@ -54,7 +55,7 @@ function Wallet() {
                   </Typography>
                </Stack>
             </Stack>
-         </Paper>
+         </Card>
       </Stack>
   )
 }

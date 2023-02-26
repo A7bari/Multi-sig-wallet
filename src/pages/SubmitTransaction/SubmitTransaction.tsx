@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import SuccessSnackbar from 'components/Snackbars/SuccessSnackbar';
 import Web3 from 'web3';
+import { Card } from '@mui/material';
 
 const initialState = {
    address_to : "",
@@ -49,59 +50,59 @@ function SubmitTransaction() {
 
   return (
    <Container maxWidth='sm' >
-   <Box component={Paper} sx={{ mt: 6, p:6 }}>
-      <Grid container spacing={3}>
-         <Grid item xs={12}>
-               <Divider  >
-                  <Typography variant='subtitle1' color='secondary.light' sx={{mb:2}}>submit new transaction: </Typography>
-               </Divider>
+      <Card sx={{ mt: 6, p:6 }}>
+         <Grid container spacing={3}>
+            <Grid item xs={12}>
+                  <Divider  >
+                     <Typography variant='subtitle1' color='secondary.light' sx={{mb:2}}>submit new transaction: </Typography>
+                  </Divider>
+            </Grid>
+            <Grid item xs={12}>
+               <InputLabel htmlFor="address_to">address to</InputLabel>
+               <OutlinedInput 
+                  name='address_to'
+                  value={values.address_to}
+                  required
+                  fullWidth
+                  placeholder="0x00"
+                  onChange={(e) => setValues(prev => ({...prev, address_to: e.target.value})) }
+                  autoFocus
+                  error={err}
+               />
+            </Grid>
+            <Grid item xs={12}>
+               <InputLabel htmlFor="value">value to submit</InputLabel>
+               <OutlinedInput 
+                  name='value'
+                  value={values.value}
+                  required
+                  fullWidth
+                  placeholder="0"
+                  onChange={(value) => setValues(prev => ({...prev, value: value.target.value})) }
+                  autoFocus
+                  error={err}
+               />
+            </Grid>
+            <Grid item xs={12}>
+               <Button
+                  onClick={handleSubmit}
+                  fullWidth
+                  variant="contained"
+                  disabled={isSubmitting}
+                  sx={{ mt: 3, mb: 2 }}
+                  >
+                  { isSubmitting ? <CircularProgress size={25} /> : 'submit'}
+               </Button>
+            </Grid>
          </Grid>
-         <Grid item xs={12}>
-            <InputLabel htmlFor="address_to">address to</InputLabel>
-            <OutlinedInput 
-               name='address_to'
-               value={values.address_to}
-               required
-               fullWidth
-               placeholder="0x00"
-               onChange={(e) => setValues(prev => ({...prev, address_to: e.target.value})) }
-               autoFocus
-               error={err}
-            />
-         </Grid>
-         <Grid item xs={12}>
-            <InputLabel htmlFor="value">value to submit</InputLabel>
-            <OutlinedInput 
-               name='value'
-               value={values.value}
-               required
-               fullWidth
-               placeholder="0"
-               onChange={(value) => setValues(prev => ({...prev, value: value.target.value})) }
-               autoFocus
-               error={err}
-            />
-         </Grid>
-         <Grid item xs={12}>
-            <Button
-               onClick={handleSubmit}
-               fullWidth
-               variant="contained"
-               disabled={isSubmitting}
-               sx={{ mt: 3, mb: 2 }}
-               >
-               { isSubmitting ? <CircularProgress size={25} /> : 'submit'}
-            </Button>
-         </Grid>
-      </Grid>
-   </Box>
-   <SuccessSnackbar
-        open={open}
-        autoHideDuration={6000}
-        msg={msg}
-        setOpen={setOpen}
-        SnackbarType={err? 'error': 'success'}
-   />
+      </Card>
+      <SuccessSnackbar
+         open={open}
+         autoHideDuration={6000}
+         msg={msg}
+         setOpen={setOpen}
+         SnackbarType={err? 'error': 'success'}
+      />
    </Container>
   )
 }
