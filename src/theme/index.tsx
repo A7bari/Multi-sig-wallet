@@ -28,6 +28,17 @@ function TableCell(theme: Theme) {
   };
 }
 
+function Card() {
+  return {
+      MuiCard : {
+          styleOverrides: {
+              root: {
+                borderRadius: 20
+              }
+          }
+      }
+  };
+}
 
 // ==============================|| DEFAULT THEME - MAIN  ||============================== //
 
@@ -128,7 +139,8 @@ export default function ThemeCustomization({ children }: PropsWithChildren) {
     });
     themes.components =  Object.assign(
       Paper(),
-      TableCell(themes)
+      TableCell(themes),
+      Card()
     )
 
     return (
